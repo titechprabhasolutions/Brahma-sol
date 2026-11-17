@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # BRAHMA SOL — Automated Production Build & Release Pipeline
 # Compiles:
 #   1. BrahmaSol.exe Application Payload (PyInstaller)
@@ -33,8 +33,13 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# Note: We distribute the 1.2 GB setup installer via Google Drive CDN rather than Netlify static hosting to stay under Netlify's 50 MB limit.
-Write-Host "`n>>> [STEP 4/5] Installer ready at dist\brahma-sol_setup.exe (Google Drive CDN linked)..." -ForegroundColor Cyan
+Write-Host "`n>>> [STEP 4/5] Mirroring Setup Installer to Website Distribution..." -ForegroundColor Cyan
+$webDownloadDir = "D:\titech\brahma-sol-web\assets\downloads"
+if (-not (Test-Path $webDownloadDir)) {
+    New-Item -ItemType Directory -Path $webDownloadDir -Force | Out-Null
+}
+Copy-Item "dist\brahma-sol_setup.exe" -Destination "$webDownloadDir\brahma-sol_setup.exe" -Force
+Write-Host "Mirrored to: $webDownloadDir\brahma-sol_setup.exe" -ForegroundColor Green
 
 Write-Host "`n>>> [STEP 5/5] Publishing v2.4.0 Release to Cloudflare Update Hub..." -ForegroundColor Cyan
 & .\.venv\Scripts\python.exe -c "
