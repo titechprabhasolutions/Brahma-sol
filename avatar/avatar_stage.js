@@ -131,84 +131,95 @@ function setupLighting() {
 
 function loadAvatarModel() {
   const loader = new THREE.GLTFLoader();
-  const modelPath = "../assets/avatar/robot.glb";
+  const localModelPath = "../assets/avatar/robot.glb";
+  const cdnModelPath = "https://raw.githubusercontent.com/titechprabhasolutions/Brahma-sol/main/assets/models/robot.glb";
 
-  console.log("[BrahmaSol 3D] Loading GLB model from:", modelPath);
+  function attemptLoad(targetUrl, isFallback = false) {
+    console.log(`[BrahmaSol 3D] Loading GLB model from (${isFallback ? "Cloud CDN" : "Local Disk"}): ${targetUrl}`);
 
-  loader.load(
-    modelPath,
-    (gltf) => {
-      avatarModel = gltf.scene;
-      allClips = gltf.animations || [];
-      console.log(`[BrahmaSol 3D] Model loaded. Found ${allClips.length} animation clips.`);
+    loader.load(
+      targetUrl,
+      (gltf) => {
+        avatarModel = gltf.scene;
+        allClips = gltf.animations || [];
+        console.log(`[BrahmaSol 3D] Model loaded successfully. Found ${allClips.length} animation clips.`);
 
-      // Position & Scale
-      avatarModel.scale.set(1.0, 1.0, 1.0);
-      avatarModel.position.set(0, 0, 0);
-      scene.add(avatarModel);
+        // Position & Scale
+        avatarModel.scale.set(1.0, 1.0, 1.0);
+        avatarModel.position.set(0, 0, 0);
+        scene.add(avatarModel);
 
-      // Inspect skeleton for procedural IK bones
-      avatarModel.traverse((node) => {
-        if (node.isBone) {
-          const name = node.name.toLowerCase();
-          if (name === "neck_01" || name.includes("neck")) {
-            neckBone = node;
-            console.log("[BrahmaSol 3D] Located neck bone:", node.name);
-          } else if (name === "head") {
-            headBone = node;
-            headBoneBaseQuat = node.quaternion.clone();
-            console.log("[BrahmaSol 3D] Located head bone:", node.name);
+        // Inspect skeleton for procedural IK bones
+        avatarModel.traverse((node) => {
+          if (node.isBone) {
+            const name = node.name.toLowerCase();
+            if (name === "neck_01" || name.includes("neck")) {
+              neckBone = node;
+              console.log("[BrahmaSol 3D] Located neck bone:", node.name);
+            } else if (name === "head") {
+              headBone = node;
+              headBoneBaseQuat = node.quaternion.clone();
+              console.log("[BrahmaSol 3D] Located head bone:", node.name);
+            }
           }
-        }
-      });
+        });
 
-      // Setup AnimationMixer
-      mixer = new THREE.AnimationMixer(avatarModel);
+        // Setup AnimationMixer
+        mixer = new THREE.AnimationMixer(avatarModel);
 
-      // Register all clips into actionsMap
-      allClips.forEach((clip) => {
-        const action = mixer.clipAction(clip);
-        actionsMap.set(clip.name, action);
-      });
+        // Register all clips into actionsMap
+        allClips.forEach((clip) => {
+          const action = mixer.clipAction(clip);
+          actionsMap.set(clip.name, action);
+        });
 
-      // Populate diagnostic dropdown
-      populateClipDropdowns();
+        // Populate diagnostic dropdown
+        populateClipDropdowns();
 
-      // Listen for non-looping animation completions
-      mixer.addEventListener("finished", (e) => {
-        const finishedClipName = e.action.getClip().name;
-        console.log("[BrahmaSol 3D] Clip finished:", finishedClipName);
-        if (pyBridge && pyBridge.onClipFinished) {
-          pyBridge.onClipFinished(finishedClipName);
-        }
-        // ONLY if the finished action is the currently active action AND it was non-looping
-        // This ensures fading-out previous clips never prematurely interrupt newly started animations!
-        if (e.action === currentAction && e.action.loop === THREE.LoopOnce) {
-          if (finishedClipName !== "Sleeping" && finishedClipName !== "Kneeling Tired" && finishedClipName !== "Sitting Enter" && finishedClipName !== "Sitting Exit") {
-            const fallback = (activeClipName && activeClipName.includes("Sitting")) ? "Sitting Idle" : "Idle Subtle";
-            playAnimation(fallback, 0.35, true);
+        // Listen for non-looping animation completions
+        mixer.addEventListener("finished", (e) => {
+          const finishedClipName = e.action.getClip().name;
+          console.log("[BrahmaSol 3D] Clip finished:", finishedClipName);
+          if (pyBridge && pyBridge.onClipFinished) {
+            pyBridge.onClipFinished(finishedClipName);
           }
+          // ONLY if the finished action is the currently active action AND it was non-looping
+          // This ensures fading-out previous clips never prematurely interrupt newly started animations!
+          if (e.action === currentAction && e.action.loop === THREE.LoopOnce) {
+            if (finishedClipName !== "Sleeping" && finishedClipName !== "Kneeling Tired" && finishedClipName !== "Sitting Enter" && finishedClipName !== "Sitting Exit") {
+              const fallback = (activeClipName && activeClipName.includes("Sitting")) ? "Sitting Idle" : "Idle Subtle";
+              playAnimation(fallback, 0.35, true);
+            }
+          }
+        });
+
+        // Start initial ground state: "Idle Subtle"
+        playAnimation("Idle Subtle", 0.1, true);
+
+        // Trigger landing welcome
+        setTimeout(() => {
+          showSpeechBubble("Brahma Sol online and operational. Ready when you are.", 4.0);
+        }, 800);
+      },
+      (xhr) => {
+        if (xhr.total > 0) {
+          const pct = Math.round((xhr.loaded / xhr.total) * 100);
+          console.log(`[BrahmaSol 3D] Loading progress: ${pct}%`);
         }
-      });
-
-      // Start initial ground state: "Idle Subtle"
-      playAnimation("Idle Subtle", 0.1, true);
-
-      // Trigger landing welcome
-      setTimeout(() => {
-        showSpeechBubble("Brahma Sol online and operational. Ready when you are.", 4.0);
-      }, 800);
-    },
-    (xhr) => {
-      if (xhr.total > 0) {
-        const pct = Math.round((xhr.loaded / xhr.total) * 100);
-        console.log(`[BrahmaSol 3D] Loading progress: ${pct}%`);
+      },
+      (err) => {
+        console.warn(`[BrahmaSol 3D] Notice loading from ${targetUrl}:`, err);
+        if (!isFallback) {
+          console.log("[BrahmaSol 3D] Falling back to high-speed cloud CDN stream...");
+          attemptLoad(cdnModelPath, true);
+        } else {
+          console.error("[BrahmaSol 3D] Both local and cloud avatar streams failed.");
+        }
       }
-    },
-    (err) => {
-      console.error("[BrahmaSol 3D] Error loading GLB avatar:", err);
-    }
-  );
+    );
+  }
+
+  attemptLoad(localModelPath);
 }
 
 // =============================================================================
