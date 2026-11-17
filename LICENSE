@@ -1,48 +1,21 @@
-BRAHMA SOL SOURCE-AVAILABLE PERSONAL USE LICENSE
-Version 2.4 (Celestial Edition - Personal & Educational Use)
+MIT License
 
-Copyright (c) 2024-2026 TiTech Prabha Solutions / Suryaansh Tiwari (Buildonaut)
-All rights reserved.
+Copyright (c) 2024-2026 Suryaansh Tiwari (Buildonaut) / TiTech Prabha Solutions
 
-================================================================================
-TERMS AND CONDITIONS FOR USE
-================================================================================
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. GRANT OF LICENSE (PERSONAL LOCAL USE ONLY)
-Subject to the strict terms and restrictions of this License, the Copyright Holder 
-grants you a personal, worldwide, non-exclusive, non-transferable, revocable license to:
-  (a) Download, clone, inspect, compile, and run the Software locally on your own
-      personal computing devices strictly for your own private, personal, educational,
-      academic, and non-commercial evaluation purposes.
-  (b) Modify, adapt, customize, or create personal skills/features/plugins for the
-      Software, strictly for your own local, private, non-commercial use on your own machine.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-2. PROHIBITION ON UNAUTHORIZED COMMERCIAL REDISTRIBUTION & SAAS
-Under this License, you are expressly PROHIBITED from:
-  (a) Selling, renting, leasing, sublicensing, or charging fees for access to the
-      Software, its source code, compiled binaries, documentation, or modifications.
-  (b) Incorporating the Software into any commercial product, commercial service,
-      SaaS (Software-as-a-Service), managed cloud platform, or enterprise deployment.
-  (c) Removing, altering, or obscuring any copyright notices, trademarks, or proprietary
-      branding belonging to Buildonaut or TiTech Prabha Solutions.
-  (d) Distributing repackaged or modified editions under another product name without
-      explicit, prominent attribution to the original project and author (Buildonaut - Suryaansh).
-
-3. OFFICIAL DISTRIBUTION CHANNELS
-The authorized official sources for Brahma Sol are:
-  - GitHub: https://github.com/titechprabhasolutions/Brahma-sol
-  - Website: https://brahma-sol.netlify.app
-  - YouTube: https://www.youtube.com/@Buildonaut-AI
-
-4. CONTRIBUTIONS
-By submitting pull requests or code contributions to this repository, you grant the
-Copyright Holder a perpetual, irrevocable, worldwide, royalty-free license to use,
-modify, merge, and distribute your contributions under this or future license versions.
-
-5. DISCLAIMER OF WARRANTY
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT
-HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
