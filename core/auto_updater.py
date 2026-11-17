@@ -76,6 +76,34 @@ class AutoUpdater:
                                 return None
                 except Exception:
                     continue
+
+            # Secondary fallback: Official GitHub Releases API
+            try:
+                gh_req = urllib.request.Request(
+                    "https://api.github.com/repos/titechprabhasolutions/Brahma-sol/releases/latest",
+                    headers={"User-Agent": f"BrahmaSol/{self.current_version}"}
+                )
+                with urllib.request.urlopen(gh_req, timeout=timeout) as resp:
+                    if resp.status == 200:
+                        gh_data = json.loads(resp.read().decode("utf-8"))
+                        gh_version = gh_data.get("tag_name", "0.0.0").lstrip("v")
+                        if self.is_newer_version(gh_version):
+                            dl_url = gh_data.get("html_url", "")
+                            for asset in gh_data.get("assets", []):
+                                if "setup" in asset.get("name", "").lower() or asset.get("name", "").endswith(".exe"):
+                                    dl_url = asset.get("browser_download_url", dl_url)
+                                    break
+                            info = {
+                                "version": gh_version,
+                                "name": gh_data.get("name", f"Brahma Sol v{gh_version}"),
+                                "download_url": dl_url,
+                                "changelog": gh_data.get("body", "")
+                            }
+                            self.update_info = info
+                            print(f"[AutoUpdater] 🔔 New GitHub Release detected: v{gh_version}")
+                            return info
+            except Exception:
+                pass
         finally:
             self._is_checking = False
         return None

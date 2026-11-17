@@ -57,8 +57,11 @@ a = Analysis(
     optimize=0,
 )
 
-# Exclude private credentials / cache
+# Exclude private credentials / cache and heavy on-demand cloud assets
 excluded_files = [
+    'kokoro-v1.0.onnx',
+    'voices-v1.0.bin',
+    'assets/models/robot.glb',
     'ig_browser_profile',
     'patch_backups',
     'patch_history.json',
