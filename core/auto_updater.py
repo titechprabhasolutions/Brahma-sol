@@ -28,7 +28,7 @@ import threading
 from pathlib import Path
 from typing import Optional, Callable, Dict, Any
 
-CURRENT_VERSION = "2.4.1"
+CURRENT_VERSION = "2.4.2"
 PRIMARY_UPDATE_URL = "http://brahma-update-hub.brahma-sol.workers.dev/version"
 FALLBACK_UPDATE_URL = "https://brahma-update-hub.brahma-sol.workers.dev/version"
 ADMIN_KEY = "brahma_sol_celestial_secret_2026"

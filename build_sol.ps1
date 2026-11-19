@@ -41,14 +41,14 @@ if (-not (Test-Path $webDownloadDir)) {
 Copy-Item "dist\brahma-sol_setup.exe" -Destination "$webDownloadDir\brahma-sol_setup.exe" -Force
 Write-Host "Mirrored to: $webDownloadDir\brahma-sol_setup.exe" -ForegroundColor Green
 
-Write-Host "`n>>> [STEP 5/5] Publishing v2.4.1 Release to Cloudflare Update Hub..." -ForegroundColor Cyan
+Write-Host "`n>>> [STEP 5/5] Publishing v2.4.2 Release to Cloudflare Update Hub..." -ForegroundColor Cyan
 & .\.venv\Scripts\python.exe -c "
 from core.auto_updater import AutoUpdater
 res = AutoUpdater.publish_release(
-    version='2.4.1',
+    version='2.4.2',
     download_url='https://drive.google.com/file/d/1V18O0bY4H_e907DiXuheAbOjwZy3ckmQ/view?usp=sharing',
-    changelog='Official Release v2.4.1: Cloud CDN 3D Streaming, Fast Cloud Asset Bootstrap, Dual-Mesh GitHub Releases Auto-Updater, NASA APOD 4K Desktop Engine, and 60 FPS Three.js Avatar.',
-    name='Brahma Sol - Celestial Edition v2.4.1'
+    changelog='Release v2.4.2: Lightweight Cloud Asset Bootstrap, Cloud CDN 3D Streaming Fallback, Dual-Mesh Auto-Updater (Cloudflare + GitHub Releases), 60 FPS Three.js Avatar Engine, and AST Safety Sandbox.',
+    name='Brahma Sol - Celestial Edition v2.4.2'
 )
 print('Cloudflare Hub Response:', res)
 "

@@ -16,7 +16,7 @@ from typing import Any, Dict, Optional
 REMOTE = "https://github.com/titechprabhasolutions/Brahma-sol.git"
 BRANCH = "main"
 GITHUB_API_RELEASES = "https://api.github.com/repos/titechprabhasolutions/Brahma-sol/releases/latest"
-CURRENT_VERSION = "2.4.1"
+CURRENT_VERSION = "2.4.2"
 
 
 def _parse_version(v_str: str) -> tuple[int, ...]:
